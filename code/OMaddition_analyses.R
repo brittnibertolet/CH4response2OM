@@ -3,7 +3,9 @@
 ###### microbial community composition in experimental microcosms
 
 ###### Updated 2021-12-08
-
+library(cowplot)
+library(ggplot2)
+library(vegan)
 ###### Calculate CH4 and CO2 production rates from incubations ####
 # Read in cleaned and quality controlled CH4 and CO2 data 
 # Raw data were adjusted to account for headspace dilution with sampling 
@@ -62,7 +64,7 @@ p1b=ggplot(rates, aes(x=lakeID, y=CH4prod))+
 
 plot_grid(p1a, p1b, ncol=2, rel_widths = c(0.5, 1), align="h", axis="l",
           labels = c("A", "B"))
-ggsave("github/figures/Figure1.pdf", height=3.25, width=6.5)
+#ggsave("github/figures/Figure1.pdf", height=3.25, width=6.5)
 
 # Get the difference in CH4 and CO2 between each
 diff=data.frame(LakeID=lakes, CH4diff=NA, CO2diff=NA, baseCH4=NA)
@@ -89,7 +91,7 @@ ddPCR=read.csv("github/data/ddPCRdata_22lakes.csv", stringsAsFactors = F)
 meta=read.csv(file ="github/data/metaData_22lakes.csv", stringsAsFactors = F)
 # read in OTU table and taxonomy 
 otus=read.table("github/data/3M.opti_mcc.shared", sep="\t", header=T, stringsAsFactors = F)
-tax=read.table("dgithub/data/3M.taxonomy", sep="\t", header=T, stringsAsFactors = F)
+tax=read.table("github/data/3M.taxonomy", sep="\t", header=T, stringsAsFactors = F)
 rownames(otus)=otus$Group
 
 # make sure OTUs are in more than one sample
@@ -139,10 +141,10 @@ pcoa.DF=data.frame(LakeID=gsub("3M_", "",rownames(pcoaM$points)),
 rownames(pcoa.DF)=NULL
 
 # Statistical relationships
-adonis(distM~data$sediment_pH)
-adonis(distM~data$percOM)
-adonis(distB~data$sediment_pH)
-adonis(distB~data$percOM)
+adonis(distM~meta$sediment_pH)
+adonis(distM~meta$percOM)
+adonis(distB~meta$sediment_pH)
+adonis(distB~meta$percOM)
 
 # merge with microbial metrics
 microbes=merge(microbes,pcoa.DF, by="LakeID")
@@ -182,7 +184,8 @@ p2b=ggplot(DF, aes(x=M.axis1, y=log(CH4diff)))+
 
 plot_grid(p2a+guides(color="none"),
           p2b+guides(color="none"),
-          get_legend(p2a), ncol=3, rel_widths = c(1,1,0.3))
+          get_legend(p2a), ncol=3, rel_widths = c(1,1,0.3),
+          labels=c("A", "B"))
 ggsave("github/figures/Figure2.pdf", height=2.75, width=6.5)
 
 ##### Supplementary Figures ####
