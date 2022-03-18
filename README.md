@@ -1,3 +1,3 @@
 # CH4response2OM
 
-Data and code for analyses conducted in "Variation in lake sediment methane responses to increasing organic matter is related to microbial community composition" by Brittni L. Bertolet, Cristian Koepfli, and Stuart E. Jones
+Data and code for analyses conducted in "Lake sediment methane responses to organic matter are related to microbial community composition in experimental mesocosms" by Brittni L. Bertolet, Cristian Koepfli, and Stuart E. Jones
